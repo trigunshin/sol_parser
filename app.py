@@ -34,6 +34,11 @@ def hello():
 def decode():
     sol_file = request.files['file']
     decoded_file = decode_file(sol_file)
+
+    for key, val in decoded_file['inventoryExpiry'].iteritems():
+        if val == float('inf'):
+            decoded_file['inventoryExpiry'] = -1
+
     return jsonify(data=decoded_file)
 
 if __name__ == '__main__':
