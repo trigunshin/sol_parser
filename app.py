@@ -22,8 +22,7 @@ class AMFEncoder(json.JSONEncoder):
 app.json_encoder = AMFEncoder
 
 def decode_file(sol_file):
-    stream = pyamf.util.pure.BufferedByteStream(sol_file)
-    name, values = pyamf.sol.decode(stream)
+    name, values = pyamf.sol.decode(sol_file)
     return values
 
 @app.route('/')
@@ -33,14 +32,9 @@ def hello():
 @app.route('/decode', methods=['POST'])
 @cross_origin(methods=['POST'])
 def decode():
-    print 'files', request.files
-    print 'values', request.values
-    print 'form', request.form
     sol_file = request.files['file']
-    print sol_file
     decoded_file = decode_file(sol_file)
-
     return jsonify(data=decoded_file)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
