@@ -23,11 +23,7 @@ app.json_encoder = AMFEncoder
 
 def decode_file(sol_file):
     stream = pyamf.util.pure.BufferedByteStream(sol_file)
-    try:
-        name, values = pyamf.sol.decode(stream)
-    except Exception as e:
-        print e
-        values = {'error': True}
+    name, values = pyamf.sol.decode(stream)
     return values
 
 @app.route('/')
