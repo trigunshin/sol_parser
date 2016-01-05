@@ -9,8 +9,7 @@ from flask import Flask, request, jsonify
 from flask.ext.cors import CORS, cross_origin
 
 app = Flask(__name__)
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
+CORS(app)
 
 
 # pyamf.Undefined should translate to ''
@@ -34,12 +33,12 @@ def hello():
 
 
 @app.route('/decode', methods=['POST'])
-@cross_origin()
+@cross_origin(methods=['POST'])
 def decode():
     sol_file = request.files['file']
-    decoded_file = decode_file(request.files['file'])
+    decoded_file = decode_file(sol_file)
 
     return jsonify(data=decoded_file)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
