@@ -6,8 +6,12 @@ import pyamf.util.pure
 import StringIO
 
 from flask import Flask, request, jsonify
+from flask.ext.cors import CORS, cross_origin
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
+
 
 # pyamf.Undefined should translate to ''
 class AMFEncoder(json.JSONEncoder):
@@ -30,6 +34,7 @@ def hello():
 
 
 @app.route('/decode', methods=['POST'])
+@cross_origin()
 def decode():
     sol_file = request.files['file']
     decoded_file = decode_file(request.files['file'])
