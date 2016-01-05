@@ -11,7 +11,6 @@ from flask.ext.cors import CORS, cross_origin
 app = Flask(__name__)
 CORS(app)
 
-
 # pyamf.Undefined should translate to ''
 class AMFEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -31,11 +30,14 @@ def decode_file(sol_file):
 def hello():
     return 'Hello World! POST a .SOL file to /decode as a file named "file"'
 
-
 @app.route('/decode', methods=['POST'])
 @cross_origin(methods=['POST'])
 def decode():
+    print 'files', request.files
+    print 'values', request.values
+    print 'form', request.form
     sol_file = request.files['file']
+    print sol_file
     decoded_file = decode_file(sol_file)
 
     return jsonify(data=decoded_file)
